@@ -4,19 +4,19 @@ Diseñado para ejecutarse en microcontroladores (Raspberry Pi Pico W). Consulta 
 
 ## Características
 
-**Conexión Wi-Fi 2.4GHz:**
+### Conexión Wi-Fi 2.4GHz:
 
 Conecta la Raspberry Pi Pico W a la banda 2.4GHz, al igual que el minero.
 
-**Lectura directa y eficiente:**
+### Lectura directa y eficiente
 
 Diseñado para consultar los datos del minero de forma ligera, evitando que el microcontrolador se quede sin memoria.
 
-**Resiliente:**
+### Resiliente
 
 Si el minero da un fallo puntual de lectura o el Wi-Fi parpadea, el sistema reintenta conectar solo y evita enviar falsas alarmas.
 
-**Integración Multicanal con Discord:**
+### Integración Multicanal con Discord
 
 Separa la lógica operativa en canales de webhook independientes:
 
@@ -24,15 +24,13 @@ Separa la lógica operativa en canales de webhook independientes:
 
 **Logs:** Captura fallos de conexión, reconexión automática, caídas del hashrate y shutdown manual del equipo.
 
-**Informe de estado:**
+**Informe de estado:** Establece cada cuánto quieres recibir un informe para tener controlada la salud del minero estés donde estés. Siempre que tengas conexión a internet.
 
-Establece cada cuánto quieres recibir un informe para tener controlada la salud del minero estés donde estés. Siempre que tengas conexión a internet.
-
-**Vigilancia externa**:
+### Vigilancia externa
 
 Envía heartbeats (pings) a https://healthchecks.io/ para detectar caídas repentinas del microcontrolador o cortes de energía.
 
-**Pensado para correr 24/7:**
+### Pensado para correr 24/7
 
 El script limpia la memoria RAM de forma periódica (gc.collect()) para asegurarse de que el microcontrolador no se sature ni se cuelgue con el paso de los días.
 
