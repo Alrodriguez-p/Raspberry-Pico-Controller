@@ -16,7 +16,7 @@ Diseñado para consultar los datos del minero de forma ligera, evitando que el m
 
 Si el minero da un fallo puntual de lectura o el Wi-Fi parpadea, el sistema reintenta conectar solo y evita enviar falsas alarmas.
 
-### Integración Multicanal con Discord
+### Integración multicanal con Discord
 
 Separa la lógica operativa en canales independientes de tu servidor:
 
