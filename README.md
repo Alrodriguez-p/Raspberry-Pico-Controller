@@ -1,4 +1,4 @@
-# MicroPython Watchdog para Home miners
+# Watchdog en MicroPython para Home miners
 Diseñado para ejecutarse en microcontroladores (Raspberry Pi Pico W). Consulta los datos del equipo vía API, monitoriza la temperatura del ASIC, las revoluciones del ventilador y el hash rate. Cuenta con integración multicanal en Discord mediante webhooks para enviar alertas y asegura la disponibilidad del sistema enviando heartbeats a Healthchecks.io.
 
 
