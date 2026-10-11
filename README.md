@@ -18,7 +18,7 @@ Si el minero da un fallo puntual de lectura o el Wi-Fi parpadea, el sistema rein
 
 ### Integración Multicanal con Discord
 
-Separa la lógica operativa en canales de webhook independientes:
+Separa la lógica operativa en canales independientes de tu servidor:
 
 **Alertas Térmicas:** Avisos en tiempo real cuando el chip ASIC o reguladores VRM superan los límites de seguridad.
 
