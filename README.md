@@ -22,7 +22,7 @@ Separa la lógica operativa en canales independientes de tu servidor:
 
 **Alertas Térmicas:** Avisos en tiempo real cuando el chip ASIC o reguladores VRM superan los límites de seguridad.
 
-**Logs:** Captura fallos de conexión, reconexión automática, caídas del hashrate y shutdown manual del equipo.
+**Logs:** Captura fallos de conexión, reconexión automática, caídas del hashrate, disminución excesiva en las RPM del ventilador y shutdown manual del equipo.
 
 **Informe de estado:** Establece cada cuánto quieres recibir un informe para tener controlada la salud del minero estés donde estés. Siempre que tengas conexión a internet.
 
