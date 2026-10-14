@@ -87,9 +87,8 @@ def enviar_confirmacion_arranque(url_webhook):
 
 def obtener_json_minero(ip_minero, timeout=5, reintentos=3):
     """
-    Consulta la API REST del minero utilizando sockets de bajo nivel de Python
-    para minimizar el consumo de RAM en el microcontrolador. Incluye control
-    de reintentos locales si el búfer llega incompleto.
+    Consulta la API REST del minero utilizando sockets de bajo nivel de Python.
+    Separa correctamente las cabeceras HTTP del cuerpo JSON para evitar fallos de análisis.
     """
     for intento in range(reintentos):
         s = None
@@ -102,7 +101,7 @@ def obtener_json_minero(ip_minero, timeout=5, reintentos=3):
             peticion = f"GET /api/system/info HTTP/1.1\r\nHost: {ip_minero}\r\nConnection: close\r\n\r\n"
             s.send(peticion.encode())
             
-            # Pequeña pausa para que el ESP32 llene el búfer de red
+            # Pequeña pausa para que el servidor llene el búfer de red
             time.sleep_ms(50)
             
             respuesta = b""
@@ -112,15 +111,24 @@ def obtener_json_minero(ip_minero, timeout=5, reintentos=3):
                     break
                 respuesta += bloque
             
-            inicio = respuesta.find(b"{")
-            fin = respuesta.rfind(b"}")
+            # SEPARAR CABECERAS HTTP DEL CUERPO (BODY)
+            if b"\r\n\r\n" in respuesta:
+                cabeceras, cuerpo = respuesta.split(b"\r\n\r\n", 1)
+            else:
+                cuerpo = respuesta
+            
+            # Buscar el JSON exclusivamente dentro del cuerpo de la respuesta
+            inicio = cuerpo.find(b"{")
+            fin = cuerpo.rfind(b"}")
             
             if inicio != -1 and fin != -1 and fin > inicio:
-                json_bytes = respuesta[inicio:fin + 1]
-                # Intenta parsear; si falla, el bucle for reintentará
+                json_bytes = cuerpo[inicio:fin + 1]
                 return ujson.loads(json_bytes.decode("utf-8"))
+            else:
+                print(f"[Intento {intento + 1}/{reintentos}] Cuerpo HTTP sin estructura JSON válida")
+                
         except Exception as e:
-            print(f"[Intento {intento + 1}/{reintentos}] Lectura incompleta o error: {e}")
+            print(f"[Intento {intento + 1}/{reintentos}] Error de socket/lectura: {e}")
             time.sleep(1)
         finally:
             if s:
