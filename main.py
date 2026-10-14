@@ -102,7 +102,7 @@ def obtener_json_minero(ip_minero, timeout=5, reintentos=3):
             s.send(peticion.encode())
             
             # Pequeña pausa para que el servidor llene el búfer de red
-            time.sleep_ms(50)
+            time.sleep_ms(150)
             
             respuesta = b""
             while True:
