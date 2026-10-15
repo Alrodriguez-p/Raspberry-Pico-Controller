@@ -28,7 +28,7 @@ ALERT_COOLDOWN = 120                 # Espera entre avisos de sobrecalentamiento
 ERROR_COOLDOWN = 300                 # Espera entre alertas de error en Discord (5 min)
 HASHRATE_COOLDOWN = 120
 
-MAX_FALLOS_CONSECUTIVOS = 3          # Número de fallos seguidos antes de avisar a Discord
+MAX_FALLOS_CONSECUTIVOS = 5          # Número de fallos seguidos antes de avisar a Discord
 RESUMEN_INTERVALO = 3600            # Tiempo entre resúmenes diarios en segundos (3600s = 1 hora)
 
 # HEALTHCHECK
@@ -85,7 +85,7 @@ def enviar_confirmacion_arranque(url_webhook):
         print("❌ Fallo al enviar confirmación de arranque:", e)
 
 
-def obtener_json_minero(ip_minero, timeout=5, reintentos=3):
+def obtener_json_minero(ip_minero, timeout=7, reintentos=3):
     """
     Consulta la API REST del minero utilizando sockets de bajo nivel de Python.
     Separa correctamente las cabeceras HTTP del cuerpo JSON para evitar fallos de análisis.
@@ -308,9 +308,9 @@ def main():
             tipo_error = type(e).__name__
             print(f"[ERROR CAPTURADO ({fallos_consecutivos}/{MAX_FALLOS_CONSECUTIVOS})] {tipo_error}: {e}")
 
-            # Solo notifica a Discord si supera los fallos consecutivos configurados
+            # Solo notifica a Discord si supera los fallos consecutivos y respeta estrictamente el cooldown
             if fallos_consecutivos >= MAX_FALLOS_CONSECUTIVOS:
-                if (ahora - ultimo_aviso_error) >= ERROR_COOLDOWN or not estaba_en_error:
+                if (ahora - ultimo_aviso_error) >= ERROR_COOLDOWN:
                     error_msg = f"\u200b\n⚠️ **FALLO EN PICO:**\nNo se pudo leer el NerdAxe tras {MAX_FALLOS_CONSECUTIVOS} intentos.\nDetalle: `{tipo_error}: {e}`"
                     enviar_discord(error_msg, url_webhook=DISCORD_WEBHOOK_ERRORS)
                     ultimo_aviso_error = ahora
